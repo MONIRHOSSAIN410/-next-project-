@@ -1,69 +1,64 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useState } from "react";
+import Navbar from "@/app/components/Navbar";
+import Hero from "@/app/components/Hero";
+import CategoryFilter from "@/app/components/CategoryFilter";
+import CourseCard, { Course } from "@/app/components/CourseCard";
+import Trending from "@/app/components/Tranding";
+import Features from "@/app/components/Features";
+import Creators from "@/app/components/Creators";
+import FAQ from "@/app/components/FAQ";
+import MobileBanner from "@/app/components/MobileBanner";
+import Footer from "@/app/components/Footer";
+import { motion } from "framer-motion";
+
+const allCourses: Course[] = [
+  { id: 1, title: "Full Stack Web Development (React & Node.js)", instructor: "তানভির আহমেদ", rating: 4.8, reviews: 120, price: "৳২,৫০৩", oldPrice: "৳৫,০০৩", badge: "জনপ্রিয়", image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=500&auto=format&fit=crop&q=80" },
+  { id: 2, title: "Mastering UI/UX Design with Figma", instructor: "সুলতানা পারভীন", rating: 4.9, reviews: 85, price: "৳১,৮০৩", oldPrice: "৳৩,৫০৩", badge: "ট্রেন্ডিং", image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=500&auto=format&fit=crop&q=80" },
+  { id: 3, title: "Digital Marketing Mastery for Growth", instructor: "রাকিবুল ইসলাম", rating: 4.7, reviews: 62, price: "৳১,৫০৩", oldPrice: "৳৩,০০৩", badge: "বেস্টসেলার", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=80" },
+  { id: 4, title: "Data Science & Machine Learning", instructor: "ড. হাসান আলী", rating: 4.9, reviews: 210, price: "৳৩,২০০", oldPrice: "৳৬,০০০", badge: "টপ রেটেড", image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&auto=format&fit=crop&q=80" }
+];
+
+export default function Page() {
+  const [activeCategory, setActiveCategory] = useState("সবগুলো");
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen dark:text-white">
+      <Navbar />
+      <Hero />
+
+      {/* Main Course Section */}
+      <section id="courses" className="py-12">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-6 flex flex-col justify-between gap-2 md:flex-row md:items-center">
+            <div>
+              <h2 className="text-2xl font-bold sm:text-3xl">আমাদের সকল কোর্সসমূহ</h2>
+              <p className="text-xs text-muted-foreground">আপনার পছন্দের বিষয়ে দক্ষতার উন্নয়ন করুন</p>
+            </div>
+            <CategoryFilter active={activeCategory} setActive={setActiveCategory} />
+          </div>
+
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4"
           >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {allCourses.map((course) => (
+              <CourseCard key={course.id} course={course} />
+            ))}
+          </motion.div>
         </div>
-      </main>
+      </section>
+
+      <Trending />
+      <Features />
+      <Creators />
+      <FAQ />
+      <MobileBanner />
+      <Footer />
     </div>
   );
 }
